@@ -33,7 +33,7 @@
 \newcommand{\orgshort}[1]{\renewcommand{\UnionDocOrgShort}{#1}}
 \newcommand{\logopath}[1]{\renewcommand{\UnionDocLogoPath}{#1}}
 \newcommand{\amendeddate}[1]{\renewcommand{\UnionDocAmendedDate}{#1}}
-\newcommand{\doctype}[1]{\renewcommand{\UnionDocType{#1}}}
+\newcommand{\doctype}[1]{\renewcommand{\UnionDocType}{#1}}
 \newcommand{\doctitle}[1]{\renewcommand{\UnionDocTitle}{#1}}
 
 %% Colors
