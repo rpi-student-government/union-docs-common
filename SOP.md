@@ -2,7 +2,7 @@
 
 This document explains how to publish adopted changes to the Union's governing documents in the Git repositories that hold them.
 
-## 1. Scope 
+## Scope 
 
 This document covers **publication only**.
 Only the Rensselaer Union Constitution and the bylaws of the relevant body determine whether an amendment or bill has been validly adopted.
@@ -18,15 +18,15 @@ and where you can find the adopted motion.
 
 Where the repository and the official record of the adopting body disagree, said record takes precedence. 
 
-## 2. Definitions 
+<!-- ## Definitions -->
 
-## 3. Roles 
+## Roles 
 
-| **Role**   | **Who**                                              | **Responsibilities**                                                                                            | **Needs GitHub?** |
-|------------|------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|-------------------|
-| Preparer   | Secretary of the adopting body                       | Freezes the adopted source, updates `main.tex`, confirms nothing else changed, sends change to verifier, merges | Yes               |
-| Verifier   | Designated officer of the adopting body (Appendix A) | Confirms the changed text matches the original motion                                                           | No                |
-| Maintainer | Web Technologies Group Chair                         | Maintains the class file, build config, and workflows; acts as preparer when Secretary cannot                   | Yes               |
+| **Role**   | **Who**                                                                       | **Responsibilities**                                                                                            | **Needs GitHub?** |
+|------------|-------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|-------------------|
+| Preparer   | Secretary of the adopting body                                                | Freezes the adopted source, updates `main.tex`, confirms nothing else changed, sends change to verifier, merges | Yes               |
+| Verifier   | Designated officer of the adopting body ([Appendix A](#appendix-a-verifiers)) | Confirms the changed text matches the original motion                                                           | No                |
+| Maintainer | Web Technologies Group Chair                                                  | Maintains the class file, build config, and workflows; acts as preparer when Secretary cannot                   | Yes               |
 
 **The preparer and verifier must be separate people**. 
 The verifier must be an officer of the body.
@@ -36,7 +36,7 @@ Verification is a matter of proofreading, not approval.
 The body has already acted.
 A pending or unmerged pull request never means an amendment is not in effect. 
 
-## 4. Commit Types 
+## Commit Types 
 
 You must format every commit subject as follows: `<type>: <description>`.
 The description must be imperative.
@@ -59,7 +59,7 @@ If no such authority exists, the typo stays until the body acts.
 
 If a change is in doubt, treat it as substantive (i.e. requiring some authority).
 
-## 5. Publishing an amendment 
+## Publishing an amendment 
 
 ### Freeze the source 
 
@@ -92,7 +92,7 @@ You can do all these steps in the GitHub web interface; you don't need any local
    Fill in the template, replacing every `[FILL IN ...]` placeholder except `Verified-by:`.
    The PR description becomes the permanent commit message, so write it as a record.
    
-4. **Wait for the build check to pass** and complete the preparer checklist in Section 7.
+4. **Wait for the build check to pass** and complete the preparer checklist in [Checklists](#checklists).
 
 ### Verify and publish 
 
@@ -100,16 +100,23 @@ You can do all these steps in the GitHub web interface; you don't need any local
    - the preview PDF, downloaded from the build check; or
    - a link to the pull request's "Files changed" tab, 
      which anyone can view without an account because the repository is public.
+     
 2. Tell the verifier which articles and sections the motion changes.
    Any channel is acceptable, such as email, Discord, or Webex.
-3. The verifier compares them using the verifier checklist in Section 7 and replies that the text matches, or explains what doesn't.
+   
+3. The verifier compares them using the verifier [checklist](#checklists) and replies that the text matches, or explains what doesn't.
+
 4. The preparer **squash-merges** and, in the merge dialog, 
    fills in the `Verified-by:` trailer with the verifier's name, role, channel, and date. 
    GitHub may append the PR number to the subject line. That is harmless and you may leave or remove it.
-5. Wait for CI to commit the rebuilt main.pdf with a [bot] commit.
-6. Create the release (Section 9).
+   
+5. Wait for CI to commit the rebuilt `main.pdf` with a `[bot]` commit.
 
-## 6. Commit message format 
+6. Create the release ([Releases and tags](#releases-and-tags)).
+
+If one meeting adopts several amendments to the same document, each motion gets its own branch, PR, and commit. Publish them in the order the body adopted them.
+
+## Commit message format 
 
 The squash commit message has three parts: the subject line, a plain-language description, and a final block of trailers.
 Trailers are `Key: value` lines in the last paragraph, with no blank lines between them. 
@@ -149,7 +156,139 @@ Verified-by: John Roe (VP, Rules & Special Projects), by email, 2026-04-25
 | `Prepared-by:` | Full name and role                                                                                         | Required | Required | Required      |
 | `Verified-by:` | Full name, role, channnel, and date of verification                                                        | Required | Required | Required      |
 
-## 7. Checklist
+Use **full names and roles**, not usernames or RCS. Usernames change and are tied to a platform.
+
+Cite documents in a way that survives a broken link.
+You may add a link to the public Box folder, but always after a citation that identifies the document on its own: 
+body, date, and item or identifier.
+
+## Checklists
+
+### Preparer checklist
+
+The preparer checks the technical side, which requires GitHub.
+
+- [ ] The integrity checks in [Freeze the source](#freeze-the-source) passed.
+- [ ] The build check passed.
+- [ ] The diff touches only the amended text, `\amendeddate`, and the new file in `adopted/`.
+  The verifier checks only the passages the motion changes, 
+  so this is the only check that catches an accidental change elsewhere in the document.
+- [ ] `\amendeddate` equals the date of the final `Approval:` line.
+- [ ] Pasted-text hazards are absent or correct: 
+  smart quotes and apostrophes, 
+  hyphens turned into dashes, 
+  pasted symbols (§, ordinals, non-breaking spaces),
+  unescaped `& % # _ $`, 
+  manual numbering duplicating the class's automatic numbering, 
+  and lost emphasis.
+- [ ] All trailers except `Verified-by:` are filled in and in order, and no other `[FILL IN ...]` text remains.
+
+### Verifier checklist
+
+The verifier needs no technical knowledge. 
+With the adopted source alongside the preview PDF or the text diff, they confirm:
+
+- [ ] The adopted source is the motion as adopted, and shows the recorded vote.
+- [ ] Every change the motion makes appears in the document, in the right place.
+- [ ] The new text matches the motion word for word, including punctuation, capitalization, and numbering.
+- [ ] Text the motion strikes no longer appears.
+
+The verifier does not need to read the rest of the document; the preparer has already confirmed nothing else changed.
+Formatting also does not need checking, since it comes from the shared class file and is outside the motion.
+
+In the text diff, removed lines are marked in red and added lines in green. 
+Commands beginning with a backslash, such as `\section{...}`, are markup and you can read past them.
 
 ## Discrepancies
+
+The preparer and verifier **never resolve a disagreement about what a body adopts**. 
+Stop publication, and refer the matter to the presiding officer of the adopting body whenever:
+
+- someone edited the motion text after the vote, and you cannot recover the version at the time of the vote;
+- the vote recorded on the motion document disagrees with the minutes;
+- the motion is missing from the motion archive; or
+- you cannot adopt an amendment cleanly, for example because it refers to text that a later amendment changed.
+
+Publish any resolution under the commit type that fits it, citing whatever record documents the resolution.
+
+## Releases and tags
+
+Mark each publication of an amendment with a tag and a GitHub release. 
+
+- **Tag name:** date of final approval in `YYYY-MM-DD` format. 
+  If that tag already exists, append with `-2`, `-3`, and so on.
+- **Tag target:** the `[bot]` commit that rebuilt `main.pdf` after the released amendment, so the tagged commit's PDF reflects the published text.
+- **Release notes:** list each motion included, with its minutes and archive citations, and any errata or ministerial commits made since the previous release.
+
+**The authoritative published copy is `main.pdf` at the tagged commit.** Since Git tracks it, it is preserved in every clone, and later formatting changes do not alter it.
+
+You may create releases through the GitHub Releases page.
+Everything legally relevant is already recorded in the commit trailers, 
+so release notes are a convenience and you lose nothing if they are not carried to another platform.
+
+The errata and ministerial commits do not get their own release. 
+You must report each one to the adopting body at its next meeting, and list them in the next release.
+
+## Formatting and submodule changes 
+
+Formatting lives only in `uniondoc.cls`. 
+Content repositories never work around formatting issues locally.
+Fix any gaps in formatting and other common assets (e.g. fonts, images, etc.) in `union-docs-commons`.
+
+- A submodule bump is always it's own `build:` commit. 
+  Do not pair it with an amendment or any other edit.
+
+- State any visible changes from a bump in the commit body (e.g. different pagination).
+
+- When `union-docs-common` changes, bump every content repository to the same commit. 
+  The maintainer checks at least once per semester that all repositories pin the same commit.
+  
+## Platform independence 
+
+The repositories are hosted on GitHub, but the record must not depend on GitHub.
+
+- Everything legally relevant lives in Git itself: 
+  document text, adopted sources, compiled PDFs, commit trailers, and tags. 
+  Pull request discussions, reviews, and build artifacts are working surfaces only.
+  
+- Build logic lives in `.latexmkrc`. 
+  Workflow files only call `latexmk`, so the build can be moved to another CI system with little effort.
+
+- Commit adopted sources to Git so the record survives even if you lose the motion archive. 
+
+- A push mirror will exist in <https://github.rpi.edu>. 
+
+## Repository configuration 
+
+Configure every document repository as follows:
+
+- **Merging:** squash merging only. 
+  Set the default squash commit message to "Pull request title and description."
+  
+- **Branches:** automatically delete head branches after merge.
+
+- **Protection on `main`:** block force pushes and branch deletion. 
+  Do not require reviews or status checks, so an officer is never locked out of publishing.
+  
+- **Pull request template:** `.github/pull_request_template.md`, copied from the master copy in `union-docs-common/templates/`.
+
+- **Workflows:** the publish workflow runs on main only. 
+  A build-check workflow runs on pull requests, compiles the document, and uploads the preview PDF.
+  It commits and publishes nothing. 
+  The preview PDF is available to signed-in users for the preparer to download and send on.
+
+
+## Changes to this SOP
+
+Changes to this SOP are `docs:` commits to `union-docs-common`, approved by the Web Technologies Group Chair.
+
+## Appendix A: Verifiers
+
+| **Body**              | **Verifier**                                  | **Backup**             |
+|-----------------------|-----------------------------------------------|------------------------|
+| Student Senate        | Rules & Administration Committee Chair        | Grand Marshal          |
+| Executive Board       | Vice President for Rules and Special Projects | President of the Union |
+| Judicial Board        | J-Board Chair                                 |                        |
+| Graduate Council      | Graduate President                            |                        |
+| Undergraduate Council | Undergraduate President                       |                        |
 
