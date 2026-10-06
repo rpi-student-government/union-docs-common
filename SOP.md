@@ -2,7 +2,7 @@
 
 This document explains how to publish adopted changes to the Union's governing documents in the Git repositories that hold them.
 
-## Scope 
+## 1. Scope 
 
 This document covers **publication only**.
 Only the Rensselaer Union Constitution and the bylaws of the relevant body determine whether an amendment or bill has been validly adopted.
@@ -18,9 +18,9 @@ and where you can find the adopted motion.
 
 Where the repository and the official record of the adopting body disagree, said record takes precedence. 
 
-## Definitions 
+## 2. Definitions 
 
-## Roles 
+## 3. Roles 
 
 | **Role**   | **Who**                                              | **Responsibilities**                                                                                            | **Needs GitHub?** |
 |------------|------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|-------------------|
@@ -36,7 +36,7 @@ Verification is a matter of proofreading, not approval.
 The body has already acted.
 A pending or unmerged pull request never means an amendment is not in effect. 
 
-## Commit Types 
+## 4. Commit Types 
 
 You must format every commit subject as follows: `<type>: <description>`.
 The description must be imperative.
@@ -59,7 +59,7 @@ If no such authority exists, the typo stays until the body acts.
 
 If a change is in doubt, treat it as substantive (i.e. requiring some authority).
 
-## Publishing an amendment 
+## 5. Publishing an amendment 
 
 ### Freeze the source 
 
@@ -72,19 +72,84 @@ where the date corresponds to the formal date of adoption,
 and `<motion>` is the motion identifier 
 (e.g. `57-12` for the twelfth motion passed by the 57th Senate).
 
-If any of these checks fail, stop and refer to [](#discrepancies).
+If any of these checks fail, stop and refer to [Discrepancies](#discrepancies).
   
 ### Prepare the change 
 
-**Create the branch**
+You can do all these steps in the GitHub web interface; you don't need any local software. 
 
-**Edit the document**
+1. **Create the branch** named `amend/<motion>` (e.g. `amend/57-13`).
 
-**Open pull request**
+2. **Edit the document** in the new branch:
+
+   1. Make the change in `main.tex`.
+   2. Update `\amendeddate` to the date of final approval.
+      - *For the Constitution, update the appendix of amendments.*
+   3. Uploaded the source PDF to the `adopted/` folder.
+   
+3. **Open a pull request.** 
+   The PR title is the commit subject, e.g. `amend: reduce E-Board quorum to simple majority`.
+   Fill in the template, replacing every `[FILL IN ...]` placeholder except `Verified-by:`.
+   The PR description becomes the permanent commit message, so write it as a record.
+   
+4. **Wait for the build check to pass** and complete the preparer checklist in Section 7.
 
 ### Verify and publish 
 
-## Commit message format 
+1. Send the verifier the adopted source PDF, plus either or both of:
+   - the preview PDF, downloaded from the build check; or
+   - a link to the pull request's "Files changed" tab, 
+     which anyone can view without an account because the repository is public.
+2. Tell the verifier which articles and sections the motion changes.
+   Any channel is acceptable, such as email, Discord, or Webex.
+3. The verifier compares them using the verifier checklist in Section 7 and replies that the text matches, or explains what doesn't.
+4. The preparer **squash-merges** and, in the merge dialog, 
+   fills in the `Verified-by:` trailer with the verifier's name, role, channel, and date. 
+   GitHub may append the PR number to the subject line. That is harmless and you may leave or remove it.
+5. Wait for CI to commit the rebuilt main.pdf with a [bot] commit.
+6. Create the release (Section 9).
+
+## 6. Commit message format 
+
+The squash commit message has three parts: the subject line, a plain-language description, and a final block of trailers.
+Trailers are `Key: value` lines in the last paragraph, with no blank lines between them. 
+Follow the order shown below.
+
+```
+amend: reduce E-Board quorum to simple majority
+
+Strikes the two-thirds quorum requirement in Article V §3 and
+replaces it with a majority of voting members.
+
+Motion: 20260422-3
+Motion: 56-26
+Approval: Executive Board, 2026-04-22, 18-2-1
+Approval: Student Senate, 2026-04-24, 13-0-2
+Minutes: Executive Board, 2026-04-22
+Minutes: Student Senate, 2026-04-21
+Archive: Student Government public record, Executive Board, FY26, 2026-04-22, Motion 3
+Archive: Student Government public record, Student Senate, 56th Senate, Motion 26
+Source: adopted/2026-04-22-3.pdf
+Source: adopted/2026-04-24-57-26.pdf
+Prepared-by: Jane Doe (E-Board Secretary)
+Verified-by: John Roe (VP, Rules & Special Projects), by email, 2026-04-25
+```
+
+### Trailer reference 
+
+| **Trailer**    | **Meaning**                                                                                                | `amend`  | `errata` | `ministerial` |
+|----------------|------------------------------------------------------------------------------------------------------------|----------|----------|---------------|
+| `Motion:`      | Motion identifier as appears on the motion doc                                                             | Required | -        | -             |
+| `Approval:`    | `Body, YYYY-MM-DD, vote`. One line per required approval, in order.                                        | Required | -        | -             |
+| `Minutes:`     | Citation of the minutes recording each approval: body, meeting date. A link may follow the citation. | Required | -        | -             |
+| `Archive:`     | Where the motion is filed in the archive (path/url)                                                             | Required | -        | -             |
+| `Authority:`   | Citation of provision granting authority for the change                                                    | -        | -        | Required      |
+| `Source:`      | Path to the adopted source                                                                                 | Required | Required | -             |
+| `Corrects:`    | Hash of the commit where error was introduced                                                              | -        | Optional | -             |
+| `Prepared-by:` | Full name and role                                                                                         | Required | Required | Required      |
+| `Verified-by:` | Full name, role, channnel, and date of verification                                                        | Required | Required | Required      |
+
+## 7. Checklist
 
 ## Discrepancies
 
