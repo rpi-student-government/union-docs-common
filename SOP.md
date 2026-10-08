@@ -18,8 +18,28 @@ and where you can find the adopted motion.
 
 Where the repository and the official record of the adopting body disagree, said record takes precedence. 
 
-<!-- ## Definitions -->
+## Definitions
 
+- **Amendment:** 
+  A change in the text of a document. 
+  An amendment may require approval by more than one body, and so may involve more than one motion.
+- **Adopting/owning body:** 
+  The body who originates an amendment or publication of a governing document.
+  For example, the Executive Board initiates amendments to its own bylaws.
+- **Motion document:** 
+  The written document containing a motion as passed by the body.
+  The vote is recorded on it. 
+- **Originating motion:**
+  The motion whose motion document contains the adopted text of the amendment.
+- **Approving motion:** 
+  A motion by another body approving the originating motion, where the governing documents require it.
+  It does not restate or change the text.
+- **Adopted source:** 
+  A PDF export of the originating motion's document as it stood when its vote concluded, committed to repository.
+  There is exactly one adopted source per amendment. 
+  Approving motions are cited, not committed.
+  
+  
 ## Roles 
 
 | **Role**   | **Who**                                                                       | **Responsibilities**                                                                                            | **Needs GitHub?** |
@@ -31,6 +51,11 @@ Where the repository and the official record of the adopting body disagree, said
 **The preparer and verifier must be separate people**. 
 The verifier must be an officer of the body.
 If the verifier is unavailable, or is also the preparer, the alternate verifier listed in Appendix A acts instead. 
+
+**Approving motions from other bodies:** 
+The preparer obtains each approving motion's identifier, minutes citation, and archive location 
+from that body's Secretary, and reads the approving motion to complete the checks in Section 5, step 3.
+*The approving motion itself is not committed.*
 
 Verification is a matter of proofreading, not approval.
 The body has already acted.
@@ -46,8 +71,9 @@ The description must be imperative.
 | `amend:`       | Publishing an adopted amendment. One commit per motion.                                                                                                                         | `amend: reduce Senate quorum to simple majority` |
 | `errata:`      | Correcting a publication error --- a place where the published text does not match the source.                                                                                  | `errata: restore omitted comma in Art. V §3`     |
 | `ministerial:` | Changes to the text that you make without a motion, such as renumbering clauses, or correcting cross-references. Allowed *only* where governing documents grant that authority. | `ministerial: renumber Art. VI after 57-12`      |
+| `tidy:`        | Changes to main.tex that leave the document's text exactly as it was, such as rewrapping lines (see [Formatting](#formatting-and-submodule-changes)                             | `tidy: run latexindent`                                                 |
 | `build:`       | Class file, build config, workflow, or submodule changes                                                                                                                        | `build: bump union-docs-common to ...`           |
-| `docs:`        | Repo docs like README or this SOP or                                                                                                                                            | `docs: add tagging steps to README`              |
+| `docs:`        | Repo docs like README or this SOP                                                                                                                                               | `docs: add tagging steps to README`              |
 | `[bot]`        | Automated commits by CI. Never used by people.                                                                                                                                  | `[bot]: update generated main.pdf`               |
 
 ### Errata vs. Ministerial 
@@ -63,7 +89,7 @@ If a change is in doubt, treat it as substantive (i.e. requiring some authority)
 
 ### Freeze the source 
 
-Check the integrity of the motion document. 
+Check the integrity of the originating motion document. 
 Look at the version history and confirm no one made changes after the body voted. 
 Ensure the motion is present in the official public record. 
 
@@ -129,7 +155,6 @@ Strikes the two-thirds quorum requirement in Article V §3 and
 replaces it with a majority of voting members.
 
 Motion: 20260422-3
-Motion: 56-26
 Approval: Executive Board, 2026-04-22, 18-2-1
 Approval: Student Senate, 2026-04-24, 13-0-2
 Minutes: Executive Board, 2026-04-22
@@ -137,7 +162,6 @@ Minutes: Student Senate, 2026-04-21
 Archive: Student Government public record, Executive Board, FY26, 2026-04-22, Motion 3
 Archive: Student Government public record, Student Senate, 56th Senate, Motion 26
 Source: adopted/2026-04-22-3.pdf
-Source: adopted/2026-04-24-57-26.pdf
 Prepared-by: Jane Doe (E-Board Secretary)
 Verified-by: John Roe (VP, Rules & Special Projects), by email, 2026-04-25
 ```
